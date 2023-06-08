@@ -1,0 +1,16 @@
+[
+    {
+        "tipo": "Debito",
+        "numeroCuenta": "6432534324566789",
+        "nombreUsuario": "DANIELA CENTENO OSPINA",
+        "color1": "#FFA300",
+        "color2": "#B51A2B"
+    },
+    {
+        "tipo": "Credito",
+        "numeroCuenta": "5647547456745673",
+        "nombreUsuario": "CAMILO HIGUERA GOMEZ",
+        "color1": "#0370B7",
+        "color2": "#4365B3"
+    }
+]

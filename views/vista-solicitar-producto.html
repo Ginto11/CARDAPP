@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.js"
+      integrity="sha512-8WAv/Z7UaDv0U1DCJ3W1oul76HOvq2/9mc+IbOZGsTj9iwZnnCXL/0FS6GQKNR++krdfVn9kuAAQ6v2DqZ9uEQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>CARDAPP: Bienvenido</title>
+  </head>
+  <body>
+    <header>
+        <h1 id="bienvenida">CARDAPP</h1>
+  
+        <div class="links-header">
+          <a class="link" href="vista-usuario.html">Bienvenida</a>
+          <a class="btn-cerrar-sesion" href="../index.html">Cerrar Sesión</a>
+        </div>
+      </header>
+
+    <section class="section-usuario section-form estilos-generales-section">
+      <form action="" class="formulario-solicitud">
+        <h2>Solicitudes de productos</h2>
+        <h3>Datos de usuario</h3>
+        <div class="contenedor-inputs">
+            <label for="nombre-completo">
+                Nombre completo
+                <input class="input-focus" type="text" name="nombre_completo" disabled>
+            </label>
+
+            <label for="identificación">
+                Identificación
+                <input type="number" name="identificacion" class="input-focus" disabled>
+            </label>
+        </div>
+        <h3>Datos del producto</h3>
+        <div class="contenedor-inputs">
+            <label for="tipo-producto">
+                *Tipo producto <br>
+                <select class="input-focus" name="tipo_producto">
+                    <option value="">Seccionar</option>
+                    <option value="credito">Tarjeta de credito</option>
+                    <option value="debito">Tarjeta de debito</option>
+                </select>
+            </label>
+            <label for="cupo_producto">
+                *Cupo producto <br>
+                <select name="cupo_producto" class="input-focus">
+                    <option value="">Seleccionar</option>
+                    <option value="200000">200.000</option>
+                    <option value="500000">500.000</option>
+                    <option value="700000">700.000</option>
+                    <option value="1000000">1.000.000</option>
+                </select>
+            </label>
+            <label for="fecha-solicitud">
+                *Fecha solicitud <br>
+                <input class="input-focus" type="text" name="fecha_solicitud" disabled>
+            </label>
+            <label for="entidad">
+                *Entidades financieras
+                <select class="input-focus" name="entidad">
+                    <option value="">Seleccionar</option>
+                    <option value="caja-social">Banco Caja Social</option>
+                    <option value="bancolombia">Bancolombia</option>
+                    <option value="banco-bogota">Banco de Bogotá</option>
+                    <option value="banco-agrario">Banco Agrario</option>
+                    <option value="davivienda">Davivienda</option>
+                    <option value="colpatria">Colpatria</option>
+                </select>
+            </label>
+        </div>
+        <input class="btn-solicitar-producto" type="submit" value="Solicitar">
+      </form>
+    </section>
+
+    <footer>
+      <h2 class="titulo-section">Contacto</h2>
+      <div class="contenedor-informacion-footer">
+        <div class="contenedor-img">
+          <img src="../img/contacto.jpg" alt="imagen" />
+        </div>
+        <div class="contenedor-datos">
+          <ul>
+            <li><strong>Email:</strong>empresanvs@gmail.com</li>
+            <li><strong>Telefono: </strong>3014304546</li>
+            <li><strong>Sede Principal:</strong>Bogotá D.C</li>
+            <li><strong>Dirección:</strong>Calle 54F sur #93C - 45</li>
+            <li><strong>Desarrollador:</strong>Nelson Muñoz</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copy">
+        <h3>
+          &#169; Copyright 2023 | Nelson Muñoz. Todos los derechos reservados
+        </h3>
+      </div>
+    </footer>
+
+    <script src="../js/script.js" type="module"></script>
+    <script src="../js/vista-usuario.js" type="module"></script>
+  </body>
+</html>
