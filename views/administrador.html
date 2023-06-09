@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.js"
+    integrity="sha512-8WAv/Z7UaDv0U1DCJ3W1oul76HOvq2/9mc+IbOZGsTj9iwZnnCXL/0FS6GQKNR++krdfVn9kuAAQ6v2DqZ9uEQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="../css/style.css" />
+  <title>CARDAPP: Bienvenido</title>
+</head>
+
+<body>
+  <header>
+    <h1 id="bienvenida">CARDAPP</h1>
+
+    <div class="links-header-administrador">
+      <a class="link agregar-empleado" href="">Registrar Empleado</a>
+      <a class="link lista-empleados" href="">Listar Empleados</a>
+      <a class="btn-cerrar-sesion" href="../index.html">Cerrar Sesión</a>
+    </div>
+  </header>
+
+  <section class="section-administrador">
+    <!-- SECTION PARA AGREGAR EMPLEADOS -->
+    <div id="agregar-empleado" class="sections-administrador">
+      <form>
+        <h2>Agregar Empleado</h2>
+        <div class="contenedor-inputs">
+          <label for="nombre">
+            *Nombre <br>
+            <input type="text" name="nombre">
+          </label>
+
+          <label for="cedula">
+            *Cedula <br>
+            <input type="text" name="cedula">
+          </label>
+
+          <label for="correo">
+            *Correo Institucional<br>
+            <input type="email" name="correoInstitucional">
+          </label>
+
+          <label for="telefono">
+            *Telefono <br>
+            <input type="number" name="telefono">
+          </label>
+
+          <label for="direccion">
+            *Direccion <br>
+            <input type="text" name="direccion">
+          </label>
+
+          <label for="cargo">
+            *Cargo <br>
+            <input type="text" name="cargo">
+          </label>
+
+          <label for="jefe">
+            *Jefe Inmediato <br>
+            <input type="text" name="jefeInmediato">
+          </label>
+
+
+          <label for="pais">
+            *Pais <br>
+            <input type="text" name="pais">
+          </label>
+        </div>
+
+        <label for="terminos-y-condiciones">
+          <input type="checkbox" name="terminos-y-condiciones"> Acepto los terminos y condiciones.
+        </label>
+
+        <input class="btn-registrar-empleado" type="submit" value="Registrar">
+      </form>
+    </div>
+
+    <!-- SECTION PARA LISTAR EMPLEADOS -->
+    <div id="lista-empleados" class="sections-administrador">
+      <div class="contenedor-tabla">
+        <h2>Lista de Empleados</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo Corporativo</th>
+              <th>Telefono</th>
+              <th>Cargo</th>
+              <th>Jefe Inmediato</th>
+              <th>Pais</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody class="tbody">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <script src="../js/script.js" type="module"></script>
+  <script src="../js/administrador.js" type="module"></script>
+</body>
+
+</html>

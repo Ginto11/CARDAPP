@@ -11,7 +11,7 @@ export default function iniciarSesion(formulario){
         if(usuario.usuario == $formulario.usuario.value && usuario.password == $formulario.password.value){
             sessionStorage.setItem("usuarioLogeado", JSON.stringify(usuario));
             
-            window.location.href = "/views/vista-usuario.html";
+            window.location.href = "../views/administrador.html";
 
         }
     } else {
