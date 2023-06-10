@@ -1,17 +1,17 @@
 let $body = document.body;
-const usuarioLogeado = JSON.parse(sessionStorage.usuarioLogeado);
+const usuarioLogeado = (buscarEnLocalStorage("usuarioLogeado") === null) ? window.location.href = "../index.html" : JSON.parse(sessionStorage.usuarioLogeado);
 
 document.addEventListener("DOMContentLoaded", e => {
     
     $body.querySelector("#bienvenida").textContent = `BIENVENIDO ${cortarNombre(usuarioLogeado.nombre).toUpperCase()}`
 
-    if(localStorage.getItem("empleados") == null){
+    if(buscarEnLocalStorage("empleados") == null){
 
         buscar("../assets/empleados.json", guardarEmpleados);
 
     } else {
 
-        let empleados = JSON.parse(localStorage.getItem("empleados"));
+        let empleados = JSON.parse(buscarEnLocalStorage("empleados"));
 
         mostrarEmpleados(empleados);
     }
@@ -55,7 +55,7 @@ document.addEventListener("click", e => {
 
         let $nombre = contenedorInputs.querySelector("#nombre").value;
         let $cedula = contenedorInputs.querySelector("#cedula").value;
-        let $correoInstitucional = contenedorInputs.querySelector("#correoInstitucional").value;
+        let $correoInstitucional = contenedorInputs.querySelector("#correoCorporativo").value;
         let $telefono = contenedorInputs.querySelector("#telefono").value;
         let $direccion = contenedorInputs.querySelector("#direccion").value;
         let $cargo = contenedorInputs.querySelector("#cargo").value;
@@ -63,15 +63,15 @@ document.addEventListener("click", e => {
         let $pais = contenedorInputs.querySelector("#pais").value;
         let $terminosYCondiciones = contenedorInputs.querySelector("#terminos-y-condiciones");
 
-        if($nombre === ""){
-            alert("Nombre vacio")
+        if($nombre === "" || $cedula === "" || $correoInstitucional === "" || $telefono === "" || $direccion === "" || $cargo === "" || $jefeInmediato === "" || $pais === "" || $terminosYCondiciones === ""){
+            return alert("Complete todos los campos.");
         }
 
-        //registrarEmpleado(e.target.parentElement);
+        registrarEmpleado(e.target.parentElement);
 
-        //guadarLocalStorage();
+        guadarLocalStorage();
 
-        //window.location.reload();
+        window.location.reload();
     }
 })
 
@@ -181,7 +181,11 @@ function registrarEmpleado(formulario){
 
     let empleados  = JSON.parse(localStorage.getItem("empleados"));
 
-    empleados.push(empleado);
+    empleados.unshift(empleado);
+
+    localStorage.setItem("empleados", JSON.stringify(empleados));
+
+    alert("Empleado registrado");
 
 }
 
@@ -199,4 +203,8 @@ function limpiarSesion(){
 function guadarLocalStorage(){
     let empleadosActuales = JSON.parse(localStorage.getItem("empleados"));
     localStorage.setItem("empleados", JSON.stringify(empleadosActuales));
+}
+
+function buscarEnLocalStorage(nombre){
+    return localStorage.getItem(nombre);
 }
