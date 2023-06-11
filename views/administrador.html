@@ -32,7 +32,7 @@
     <!-- SECTION PARA AGREGAR EMPLEADOS -->
     <div id="agregar-empleado" class="sections-administrador">
       <form>
-        <h2>Agregar Empleado</h2>
+        <h2>Registrar Empleado</h2>
         <div class="contenedor-inputs">
           <label for="nombre">
             *Nombre <br>
@@ -76,9 +76,8 @@
           </label>
         </div>
 
-        <label for="terminos-y-condiciones">
-          <input type="checkbox" name="terminos-y-condiciones" id="terminos-y-condiciones"> Acepto los terminos y
-          condiciones.
+        <label class="terminos" for="terminos-y-condiciones">
+          <input type="checkbox" name="terminos-y-condiciones" id="terminos-y-condiciones">
         </label>
 
         <input class="btn-registrar-empleado" type="submit" value="Registrar">
@@ -122,6 +121,12 @@
           <div class="contenedor-informacion">
             <h2>Información</h2>
             <div class="contenedor-inputs">
+
+              <label for="idEmpleado">
+                ID <br />
+                <input class="input-focus" type="text" name="idEmpleado" id="idEmpleado" required readonly />
+              </label>
+
               <label for="nombreEmpleado">
                 Nombre <br />
                 <input class="input-focus input-disabled" type="text" name="nombreEmpleado" id="nombreEmpleado"
@@ -168,10 +173,17 @@
                 Pais <br />
                 <input class="input-focus input-disabled" type="text" name="paisEmpleado" id="paisEmpleado" required />
               </label>
+
+              <label for="estadoEmpleado">
+                Estado <br />
+                <input class="input-focus input-disabled" type="text" name="estadoEmpleado" id="estadoEmpleado"
+                  required />
+              </label>
             </div>
             <div class="contenedor-opciones">
               <button class="btn-regresar">Regresar</button>
               <button class="btn-editar">Editar</button>
+              <button class="btn-actualizar">Actualizar</button>
             </div>
           </div>
         </div>

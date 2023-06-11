@@ -440,6 +440,10 @@ footer .copy{
   -webkit-appearance: none; 
 }
 
+.section-form form input[type="checkbox"]{
+    width: initial;
+}
+
 /*SECTION ACERCA*/
 .section-acerca {
     background-color: #000;
@@ -643,6 +647,7 @@ footer .copy{
 #detalle-empleado form h2{
     color: var(--color-titulo-rojo);
     text-align: center;
+    text-shadow: 0 0 10px #000;
 }
 
 #detalle-empleado form .contenedor-contenido {
@@ -727,4 +732,9 @@ footer .copy{
 
 #detalle-empleado form .contenedor-contenido .contenedor-informacion .contenedor-opciones .btn-editar {
     background-color: gold;
+}
+
+#detalle-empleado form .contenedor-contenido .contenedor-informacion .contenedor-opciones .btn-actualizar {
+    background-color: #008000;
+    display: none;
 }
