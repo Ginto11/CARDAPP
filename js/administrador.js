@@ -1,5 +1,5 @@
 let $body = document.body;
-const usuarioLogeado = (buscarEnLocalStorage("usuarioLogeado") === null) ? window.location.href = "../index.html" : JSON.parse(sessionStorage.usuarioLogeado);
+const usuarioLogeado = (buscarEnSesionStorage("usuarioLogeado") === null) ? window.location.href = "../index.html" : JSON.parse(sessionStorage.usuarioLogeado);
 
 document.addEventListener("DOMContentLoaded", e => {
     
@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", e => {
 
     } else {
 
-        let empleados = JSON.parse(buscarEnLocalStorage("empleados"));
+        let empleados = buscarEnLocalStorage("empleados");
 
         mostrarEmpleados(empleados);
     }
@@ -32,25 +32,25 @@ document.addEventListener("click", e => {
 
     if(e.target.parentElement.matches(".links-header-administrador")){
         //LISTA DE ELEMENTOS HTML, RESPECTIVAMENTE DE LA SECTIONS
-        const sectionsAdminitrador = document.querySelectorAll(".sections-administrador");
         e.preventDefault();
 
         if(e.target.matches(".agregar-empleado")){
-            mostrarSection("agregar-empleado", sectionsAdminitrador);
+            mostrarSection("agregar-empleado", buscarPorSelector("class", "sections-administrador", true));
         }
 
         if(e.target.matches(".lista-empleados")){
 
             mostrarEmpleados();
 
-            mostrarSection("lista-empleados", sectionsAdminitrador);
+            mostrarSection("lista-empleados", buscarPorSelector("class", "sections-administrador", true));
 
         }
-    }
 
+    }
+    
     if(e.target.matches(".btn-registrar-empleado")){
         e.preventDefault();
-
+        
         let contenedorInputs = e.target.parentElement.querySelector(".contenedor-inputs");
 
         let $nombre = contenedorInputs.querySelector("#nombre").value;
@@ -66,12 +66,29 @@ document.addEventListener("click", e => {
         if($nombre === "" || $cedula === "" || $correoInstitucional === "" || $telefono === "" || $direccion === "" || $cargo === "" || $jefeInmediato === "" || $pais === "" || $terminosYCondiciones === ""){
             return alert("Complete todos los campos.");
         }
-
+        
         registrarEmpleado(e.target.parentElement);
-
+        
         guadarLocalStorage();
-
+        
         window.location.reload();
+    }
+
+    if(e.target.className == "btn-detalle-empleado"){
+
+        let empleados = buscarEnLocalStorage("empleados");
+        
+        empleados.forEach(empleado => {
+
+            if(empleado.cedula == e.target.dataset.cedula){
+                cargarInfoEmpleado(empleado)
+            }
+        })
+    }
+
+    if(e.target.matches(".btn-regresar")){
+        e.preventDefault();
+        mostrarSection("lista-empleados", buscarPorSelector("class", "sections-administrador", true));
     }
 })
 
@@ -143,8 +160,8 @@ function mostrarEmpleados(res){
                 <td>${elemento.pais}</td>
                 <td>${(elemento.estado) ? "Activo" : "Inactivo"}</td>
                 <td>
-                    <img title="Editar usuario: ${cortarNombre(elemento.nombre)}" src="../icons/editar.png" alt="Editar" />
-                    <img title="Eliminar usuario: ${cortarNombre(elemento.nombre)}" src="../icons/eliminar.png" alt="Editar" />   
+                    <img class="btn-detalle-empleado" data-cedula="${elemento.cedula}" title="Detalle usuario: ${cortarNombre(elemento.nombre)}" src="../icons/editar.png" alt="Editar" />
+                    <img class="btn-eliminar-empleado" data-cedula="${elemento.cedula}" title="Eliminar usuario: ${cortarNombre(elemento.nombre)}" src="../icons/eliminar.png" alt="Editar" />   
                 </td>
             </tr>
         `
@@ -169,7 +186,7 @@ function registrarEmpleado(formulario){
 
     let empleado = {
         nombre: formulario.nombre.value,
-        cedula: formulario.cedula.vaue,
+        cedula: formulario.cedula.value,
         correoCorporativo: formulario.correoCorporativo.value,
         telefono: formulario.telefono.value,
         direccion: formulario.direccion.value,
@@ -206,5 +223,48 @@ function guadarLocalStorage(){
 }
 
 function buscarEnLocalStorage(nombre){
-    return localStorage.getItem(nombre);
+    return JSON.parse(localStorage.getItem(nombre));
+}
+
+function buscarEnSesionStorage(nombre){
+    return sessionStorage.getItem(nombre);
+}
+
+function cargarInfoEmpleado(empleado){
+    buscarPorSelector("id", "nombreEmpleadoTitulo", false).textContent = cortarNombre(empleado.nombre);
+    buscarPorSelector("id", "nombreEmpleado", false).value = empleado.nombre;
+    buscarPorSelector("id", "cedulaEmpleado", false).value = empleado.cedula;
+    buscarPorSelector("id", "correoCorporativoEmpleado", false).value = empleado.correoCorporativo;
+    buscarPorSelector("id", "telefonoEmpleado", false).value = empleado.telefono;
+    buscarPorSelector("id", "direccionEmpleado", false).value = empleado.direccion;
+    buscarPorSelector("id", "cargoEmpleado", false).value = empleado.cargo;
+    buscarPorSelector("id", "jefeInmediatoEmpleado", false).value = empleado.jefeInmediato;
+    buscarPorSelector("id", "paisEmpleado", false).value = empleado.pais;
+
+    let $inputsDisabled = buscarPorSelector("class", "input-disabled", true);
+
+    $inputsDisabled.forEach(input => input.setAttribute("readonly", ""));
+
+    mostrarSection("detalle-empleado", buscarPorSelector("class", "sections-administrador", true));
+}
+
+function buscarPorSelector(tipoSelector, valorSelector, isAll){
+    const TIPOS_SELECTORES = {
+        ID: "id",
+        CLASS: "class"
+    }
+
+    if(tipoSelector === TIPOS_SELECTORES.ID){
+        return document.getElementById(valorSelector);
+    }
+
+    if(tipoSelector === TIPOS_SELECTORES.CLASS && isAll === false){
+        return document.getElementsByClassName(valorSelector);
+    }
+
+    if(tipoSelector === TIPOS_SELECTORES.CLASS && isAll === true){
+        return document.querySelectorAll(`.${valorSelector}`);
+    }
+
+    console.error(`El selector (${tipoSelector}) con valor de ${valorSelector}, no se encuentra.`);
 }

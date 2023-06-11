@@ -469,7 +469,7 @@ footer .copy{
     background-color: #000117;
 }
 
-.section-administrador #agregar-empleado, .section-administrador #lista-empleados{
+.section-administrador #agregar-empleado, .section-administrador #lista-empleados, .section-administrador #detalle-empleado{
     width: 100%;
     min-height: inherit;
     display: flex;
@@ -477,7 +477,8 @@ footer .copy{
     align-items: center;
 }
 
-.section-administrador #lista-empleados{
+.section-administrador #lista-empleados,
+.section-administrador #detalle-empleado{
     display: none;
 }
 
@@ -493,11 +494,13 @@ footer .copy{
     justify-content: space-between;
     color: var(--color-texto-blanco);
     align-items: center;
+    box-shadow: 0 0 10px #000 inset;
 }
 
 #agregar-empleado form h2 {
     color: var(--color-titulo-rojo);
     text-align: center;
+    text-shadow: 0 0 10px #000;
 }
 
 #agregar-empleado form .contenedor-inputs {
@@ -529,14 +532,14 @@ footer .copy{
     width: 30%;
     background-color: #008000;
     border-radius: 5px;
-    border: 3px solid #000;
+    border: 3px solid transparent;
     height: 30px;
     cursor: pointer;
     font-weight: bold;
 }
 
 #agregar-empleado form .btn-registrar-empleado:hover {
-    background-color: #008000dd;
+    border-color: #000;
 }
 
 /*SECTION LISTAR EMPLEADOS*/
@@ -552,10 +555,12 @@ footer .copy{
     align-items: center;
     justify-content: center;
     margin: 30px;
+    box-shadow: 0 0 10px #000 inset;
 }
 
 #lista-empleados .contenedor-tabla h2 {
     color: var(--color-titulo-rojo);
+    text-shadow: 0 0 10px #000;
 }
 
 #lista-empleados .contenedor-tabla table {
@@ -569,6 +574,7 @@ footer .copy{
     height: 8vh;
     background-color: #1777F2;
     border-radius: 3px;
+    box-shadow: 0 0 5px #000 inset;
 }
 
 #lista-empleados .contenedor-tabla table td {
@@ -579,6 +585,11 @@ footer .copy{
     text-align: center;
     background-color: #1F242E;
     color: #FFF;
+    box-shadow: 0 0 5px #000 inset;
+}
+
+#lista-empleados .contenedor-tabla table img {
+    cursor: pointer;
 }
 
 @media screen and (max-width: 600px) {
@@ -612,4 +623,108 @@ footer .copy{
       display: block;
       overflow-x: auto;
     }
+}
+
+/*SECTION DETALLE EMPLEADO*/
+#detalle-empleado form{
+    width: 80%;
+    min-height: 60vh;
+    padding: 30px;
+    margin: 30px;
+    border-radius: 10px;
+    background-color: #FFF2;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    color: var(--color-texto-blanco);
+    box-shadow: 0 0 10px #000 inset;
+}
+
+#detalle-empleado form h2{
+    color: var(--color-titulo-rojo);
+    text-align: center;
+}
+
+#detalle-empleado form .contenedor-contenido {
+    width: 100%;
+    display: flex;
+}
+
+#detalle-empleado form .contenedor-contenido *{
+    width: 50%;
+}
+
+#detalle-empleado form .contenedor-contenido .contenedor-informacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    border: 3px solid #FFF1;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000 inset;
+}
+
+#detalle-empleado form .contenedor-contenido .contenedor-imagen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#detalle-empleado form .contenedor-contenido .contenedor-imagen img {
+    width: 70%;
+    filter: drop-shadow(0 0 3px #000);
+}
+
+#detalle-empleado form .contenedor-inputs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+#detalle-empleado form .contenedor-inputs label{
+    width: 100%;
+}
+
+#detalle-empleado form .contenedor-inputs label input {
+    width: 98%;
+    height: 30px;
+    border: 3px solid transparent;
+    border-radius: 5px;
+    outline: none;
+    text-align: center;
+}
+
+#detalle-empleado form .contenedor-inputs label input:focus {
+    background-color: #ddd;
+    border-color: #1777F2;
+}
+
+#detalle-empleado form .contenedor-contenido .contenedor-informacion .contenedor-opciones{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+#detalle-empleado form .contenedor-contenido .contenedor-informacion .contenedor-opciones button{
+    height: 30px;
+    width: 30%;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    border: 3px solid transparent;
+}
+
+#detalle-empleado form .contenedor-contenido .contenedor-informacion .contenedor-opciones button:hover{
+    border-color: #000;
+}
+
+#detalle-empleado form .contenedor-contenido .contenedor-informacion .contenedor-opciones .btn-regresar {
+    background-color: var(--color-titulo-rojo);
+}
+
+#detalle-empleado form .contenedor-contenido .contenedor-informacion .contenedor-opciones .btn-editar {
+    background-color: gold;
 }
