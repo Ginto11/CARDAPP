@@ -55,8 +55,7 @@ function cargarAdmin(){
     identificacion: 1001345679,
     email: "empresanvs@gmail.com",
     password: "admin",
-    solicitudes: [],
-    productos: []
+    rol: "admin"
   }
 
   if(localStorage.getItem("admin") == null){

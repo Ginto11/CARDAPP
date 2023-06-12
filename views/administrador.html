@@ -22,9 +22,13 @@
     <h1 id="bienvenida">CARDAPP</h1>
 
     <div class="links-header-administrador">
-      <a class="link agregar-empleado" href="">Registrar Empleado</a>
-      <a class="link lista-empleados" href="">Listar Empleados</a>
-      <a class="btn-cerrar-sesion" href="../index.html">Cerrar Sesión</a>
+      <a class="link agregar-empleado" href=""> <img src="../icons/registrar-empleado.png" alt="Empleado"> Registrar
+        Empleado</a>
+      <a class="link lista-empleados" href=""> <img src="../icons/lista-empleados.png" alt="Lista Empleados"> Listar
+        Empleados</a>
+      <a class="link solicitudes" href=""> <img src="../icons/solicitudes.png" alt="Solicitudes"> Solicitudes</a>
+      <a class="btn-cerrar-sesion" href="../index.html"> <img src="../icons/cerrar-sesion.png" alt="Cerrar Sesion">
+        Cerrar Sesión</a>
     </div>
   </header>
 
@@ -190,10 +194,92 @@
       </form>
     </div>
 
+    <div id="solicitudes" class="sections-administrador">
+      <div class="contenedor-solicitudes">
+
+        <h2>Solicitudes</h2>
+
+        <div class="contenedor-inputs-solicitudes">
+          <button class="nueva-tarjeta"><img src="../icons/nueva-tarjeta.png" alt="Nueva Tarjeta">Nueva tarjeta</button>
+          <button class="bloqueo-preventivo"><img src="../icons/bloqueo-preventivo.png" alt="Bloqueo Preventivo">Bloqueo
+            preventivo</button>
+          <button class="salir-pais"><img src="../icons/salir-pais.png" alt="Salir Pais">Salir del pais</button>
+          <button class="aumento-cupo"><img src="../icons/aumento-cupo.png" alt="Aumento Cupo">Aumento de cupo</button>
+        </div>
+
+        <div class="solicitud">
+
+          <div id="nueva-tarjeta">
+
+            <h3>Nueva Tarjeta</h2>
+              <form action="">
+
+                <div class="contenedor-inputs-solicitud">
+                  <label for="nombreEmpleadoSolicitud" class="select-empleados">
+                    Nombre <br>
+                  </label>
+
+                  <label for="cedulaEmpleadoSolicitud">
+                    Cedula <br />
+                    <input class="input-focus" type="number" name="cedulaEmpleadoSolicitud" id="cedulaEmpleadoSolicitud"
+                      required />
+                  </label>
+
+                  <label for="correoCorporativoEmpleadoSolicitud">
+                    Correo Corporativo <br />
+                    <input class="input-focus" type="text" name="correoCorporativoEmpleadoSolicitud"
+                      id="correoCorporativoEmpleadoSolicitud" />
+                  </label>
+
+                  <label for="telefonoEmpleadoSolicitud">
+                    Telefono <br />
+                    <input class="input-focus" type="number" name="telefonoEmpleadoSolicitud"
+                      id="telefonoEmpleadoSolicitud" required />
+                  </label>
+
+                  <label for="direccionEmpleadoSolicitud">
+                    Direccion <br />
+                    <input class="input-focus" type="text" name="direccionEmpleadoSolicitud"
+                      id="direccionEmpleadoSolicitud" />
+                  </label>
+
+                  <label for="cargoEmpleadoSolicitud">
+                    Cargo <br />
+                    <input class="input-focus" type="text" name="cargoEmpleadoSolicitud" id="cargoEmpleadoSolicitud" />
+                  </label>
+
+                  <label for="paisEmpleadoSolicitud">
+                    Pais <br />
+                    <input class="input-focus" type="text" name="paisEmpleadoSolicitud" id="paisEmpleadoSolicitud"
+                      required />
+                  </label>
+
+                  <label for="estadoEmpleadoSolicitud">
+                    Estado <br />
+                    <input class="input-focus" type="text" name="estadoEmpleadoSolicitud" id="estadoEmpleadoSolicitud"
+                      required />
+                  </label>
+
+                  <label for="cupotarjeta" class="cupoTarjeta">
+                    Cupo <br>
+                  </label>
+
+                  <label for="tipoTarjeta" class="tipoTarjeta">
+                    Tipo Tarjeta <br>
+                  </label>
+                </div>
+
+
+
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
   </section>
 
-  <script src="../js/script.js" type="module"></script>
+  <script src=" ../js/script.js" type="module"></script>
   <script src="../js/administrador.js" type="module"></script>
 </body>
 

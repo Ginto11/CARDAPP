@@ -9,8 +9,7 @@ export default function registrarUsuario(formulario){
         identificacion: $formulario.cedula.value,
         email: $formulario.email.value,
         password: $formulario.password.value,
-        solicitudes: [],
-        productos: []
+        rol: "empleado"
     }
 
     if(localStorage.getItem(registro.usuario) == null){

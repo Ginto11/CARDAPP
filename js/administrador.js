@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", e => {
     
     downloadFile();
 
+    crearSelectEmpleados("select-empleados");
+    crearSelectCupos("cupoTarjeta");
+    crearSelectTiposTarjetas("tipoTarjeta");
+
     $body.querySelector("#bienvenida").textContent = `BIENVENIDO ${cortarNombre(usuarioLogeado.nombre).toUpperCase()}`
 
     if(buscarEnLocalStorage("empleados") == null){
@@ -47,6 +51,11 @@ document.addEventListener("click", e => {
 
             mostrarSection("lista-empleados", buscarPorSelector("class", "sections-administrador", true));
 
+        }
+
+        if(e.target.matches(".solicitudes")){
+
+            mostrarSection("solicitudes", buscarPorSelector("class", "sections-administrador", true));
         }
 
     }
@@ -121,6 +130,32 @@ document.addEventListener("click", e => {
         } else {
             alert("Complete todos los campos.");
         }
+
+    }
+
+    if(e.target.matches(".btn-eliminar-empleado")){
+        let usuarioLogeado = buscarEnSesionStorage("usuarioLogeado");
+
+        if(usuarioLogeado.rol != "admin"){
+            return alert("No tiene permisos para eliminar registros");
+        }
+
+        let empleados = buscarEnLocalStorage("empleados");
+
+        empleados.forEach((empleado, index) => {
+            if(empleado.id == e.target.dataset.id){
+
+                let confirmacion = confirm(`Esta seguro que desea eliminar el registro con id: ${empleado.id}`);
+
+                if(confirmacion){
+
+                    empleados.splice(index, 1);
+                    actualizarLocalStorage("empleados", empleados);
+                    mostrarEmpleados();
+                    mostrarSection("lista-empleados", buscarPorSelector("class", "sections-administrador", true))
+                }
+            }
+        })
 
     }
 })
@@ -277,7 +312,7 @@ function buscarEnLocalStorage(nombre){
 }
 
 function buscarEnSesionStorage(nombre){
-    return sessionStorage.getItem(nombre);
+    return JSON.parse(sessionStorage.getItem(nombre));
 }
 
 function actualizarLocalStorage(nombre, valor){
@@ -395,5 +430,120 @@ function preValidacion(formulario){
             return false;
         }
 
+
         return true;
 }
+
+function crearSelectEmpleados(selector){
+    const $select = document.createElement("select");
+
+    $select.name = "nombreEmpleadoSolicitud";
+    $select.id = "nombreEmpleadoSolicitud";
+
+    const $optionSelected = document.createElement("option");
+    $optionSelected.value = "";
+    $optionSelected.textContent = "Seleccionar"
+
+    $select.appendChild($optionSelected);
+
+    let empleados = buscarEnLocalStorage("empleados");
+    
+
+    $select.addEventListener("change", e => {
+        console.log(e.target.parentElement.parentElement.querySelector("#cargoEmpleadoSolicitud"));
+
+        if(e.target.value == ""){
+            e.target.parentElement.parentElement.querySelector("#cargoEmpleadoSolicitud").value = "";
+                e.target.parentElement.parentElement.querySelector("#direccionEmpleadoSolicitud").value = "";
+                e.target.parentElement.parentElement.querySelector("#cedulaEmpleadoSolicitud").value = "";
+                e.target.parentElement.parentElement.querySelector("#paisEmpleadoSolicitud").value = "";
+                e.target.parentElement.parentElement.querySelector("#estadoEmpleadoSolicitud").value = "";
+                e.target.parentElement.parentElement.querySelector("#telefonoEmpleadoSolicitud").value = "";
+                e.target.parentElement.parentElement.querySelector("#correoCorporativoEmpleadoSolicitud").value = "";
+        }
+
+        empleados.forEach(empleado => {
+            
+            if(e.target.value == empleado.id){
+                e.target.parentElement.parentElement.querySelector("#cargoEmpleadoSolicitud").value = empleado.cargo;
+                e.target.parentElement.parentElement.querySelector("#direccionEmpleadoSolicitud").value = empleado.direccion;
+                e.target.parentElement.parentElement.querySelector("#cedulaEmpleadoSolicitud").value = empleado.cedula;
+                e.target.parentElement.parentElement.querySelector("#paisEmpleadoSolicitud").value = empleado.pais;
+                e.target.parentElement.parentElement.querySelector("#estadoEmpleadoSolicitud").value = (empleado.estado) ? "Activo" : "Inactivo";
+                e.target.parentElement.parentElement.querySelector("#telefonoEmpleadoSolicitud").value = empleado.telefono;
+                e.target.parentElement.parentElement.querySelector("#correoCorporativoEmpleadoSolicitud").value = empleado.correoCorporativo;
+
+            } 
+        })
+    })
+
+    empleados.forEach(empleado => {
+        const $option = document.createElement("option");
+        $option.value = empleado.id;
+        $option.textContent = empleado.nombre;
+
+        $select.appendChild($option);
+    })
+
+    buscarPorSelector("class", selector, false).appendChild($select);
+}
+
+function crearSelectCupos(selector){
+
+    const cupos = [120000, 400000, 600000, 1000000, 1400000, 6000000, 35000000];
+    const $select = document.createElement("select");
+
+    $select.name = "cupoTarjeta";
+    $select.id = "cupoTarjeta";
+
+    const $optionSelected = document.createElement("option");
+    $optionSelected.value = "";
+    $optionSelected.textContent = "Seleccionar"
+
+    $select.appendChild($optionSelected);
+
+    cupos.forEach(cupo => {
+        let $option = document.createElement("option");
+        $option.value = cupo;
+        $option.textContent = formatoMoneda(cupo);
+
+        $select.appendChild($option);
+    })
+
+    buscarPorSelector("class", "cupoTarjeta", false).appendChild($select);
+}
+
+function formatoMoneda(cupo){
+    const formateado = cupo.toLocaleString("en", {
+        style: "currency",
+        currency: "COP",
+    });
+
+    return formateado;
+}
+
+function crearSelectTiposTarjetas(selector){
+    const tipos = ["Credito", "Recargable"];
+    const $select = document.createElement("select");
+
+    $select.name = "tipoTarjeta";
+    $select.id = "tipoTarjeta";
+
+    const $optionSelected = document.createElement("option");
+    $optionSelected.value = "";
+    $optionSelected.textContent = "Seleccionar"
+
+    $select.appendChild($optionSelected);
+
+    tipos.forEach(tipo => {
+        const $option = document.createElement("option");
+        $option.value = tipo.toLowerCase();
+        $option.textContent = tipo;
+
+        $select.appendChild($option);
+    })
+
+    buscarPorSelector("class", selector, false).appendChild($select);
+}
+
+

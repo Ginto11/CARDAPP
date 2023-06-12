@@ -75,6 +75,9 @@ header .links-header a, header .links-header-administrador a{
     display: block;
     padding: 10px;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
 }
 
 header .links-header .link:hover, header .links-header-administrador .link:hover {
@@ -473,7 +476,10 @@ footer .copy{
     background-color: #000117;
 }
 
-.section-administrador #agregar-empleado, .section-administrador #lista-empleados, .section-administrador #detalle-empleado{
+.section-administrador #agregar-empleado, 
+.section-administrador #lista-empleados, 
+.section-administrador #detalle-empleado,
+.section-administrador #solicitudes{
     width: 100%;
     min-height: inherit;
     display: flex;
@@ -482,7 +488,8 @@ footer .copy{
 }
 
 .section-administrador #lista-empleados,
-.section-administrador #detalle-empleado{
+.section-administrador #detalle-empleado,
+.section-administrador #solicitudes{
     display: none;
 }
 
@@ -737,4 +744,89 @@ footer .copy{
 #detalle-empleado form .contenedor-contenido .contenedor-informacion .contenedor-opciones .btn-actualizar {
     background-color: #008000;
     display: none;
+}
+
+/*SECTION SOLICITUDES*/
+#solicitudes .contenedor-solicitudes{
+    background-color: #FFF2;
+    width: 80%;
+    min-height: 60vh;
+    padding: 30px;
+    margin: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #000 inset;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#solicitudes .contenedor-solicitudes h2{
+    color: var(--color-titulo-rojo);
+    text-align: center;
+    text-shadow: 0 0 10px #000;
+}
+
+#solicitudes .contenedor-solicitudes .contenedor-inputs-solicitudes {
+    display: flex;
+}
+
+#solicitudes .contenedor-solicitudes .contenedor-inputs-solicitudes button{
+    background-color: transparent;
+    height: 30px;
+    padding: 0 15px;
+    color: var(--color-texto-blanco);
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-bottom: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+#solicitudes .contenedor-solicitudes .contenedor-inputs-solicitudes button:hover {
+    border-color: #1777F2;
+    background-color: #0005;
+    color: var(--color-texto-blanco);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 0 0 3px #000;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta h3 {
+    width: 50%;
+    text-indent: 30px;
+    color: var(--color-texto-blanco);
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form{
+    width: 50%;
+    min-height: 50vh;
+    color: var(--color-texto-blanco);
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form input,
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form select {
+    height: 30px;
+    width: 100%;
+    border-radius: 5px;
+    text-align: center;
+    border-color: transparent;
+    outline: none;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form select {
+    height: 34px;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form .contenedor-inputs-solicitud{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
 }
