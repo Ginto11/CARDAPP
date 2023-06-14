@@ -3,12 +3,15 @@ export default class Tarjeta {
     static DEBITO = "Debito";
     static CREDITO = "Credito"; 
 
-    constructor(color1 = "#FFF", color2 = "#FFF", tipo, numerocuenta, nombreUsuario){
+    constructor(color1 = "#FFF", color2 = "#FFF", tipo, nombreUsuario, cupo, idPropietario){
         this.color1 = color1;
         this.color2 = color2;
         this.tipo = tipo;
-        this.numerocuenta = numerocuenta;
+        this.numeroTarjeta = (Math.random() * 10000000000000000).toFixed(0);
         this.nombreUsuario = nombreUsuario;
+        this.cupo = parseInt(cupo);
+        this.idPropietario = parseInt(idPropietario);
+        this.estadoTarjeta = true;
     }
 
     crearTarjeta(){
@@ -39,7 +42,7 @@ export default class Tarjeta {
                 </div>
                 <!-- NUMERO DE CUENTA -->
                 <div>
-                    <p style="text-shadow: 0 0 2px #000; font-style: italic;">${this.darFormatoNumeroCuenta(this.numerocuenta)}</p>
+                    <p style="text-shadow: 0 0 2px #000; font-style: italic;">${this.darFormatoNumeroCuenta(this.numeroTarjeta)}</p>
                 </div>
             </div>
             <!-- NOMBRE USUARIO -->

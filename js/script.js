@@ -1,6 +1,6 @@
 import registrarUsuario from "./registro.js";
 import iniciarSesion from "./iniciar-sesion.js";
-import Tarjeta from "../model/Tarjeta.js";
+import getAxios from "./axios.js";
 
 document.addEventListener("DOMContentLoaded", (e) => {
   cargarAdmin();
@@ -20,32 +20,6 @@ document.addEventListener("click", (e) => {
     iniciarSesion(e.target.parentElement);
   }
 });
-
-function getAxios(url, selector, cantidad) {
-  axios
-    .get(url)
-    .then((res) => {
-      let lista = "";
-      let contador = cantidad ? res.data.length : 2;
-      res.data.forEach((data) => {
-        if (contador === 0) {
-          return;
-        }
-
-        lista += new Tarjeta(
-          data.color1,
-          data.color2,
-          data.tipo,
-          data.numeroCuenta,
-          data.nombreUsuario
-        ).crearTarjeta();
-
-        contador--;
-      });
-      document.querySelector(selector).innerHTML = lista;
-    })
-    .catch((res) => console.log("Error: " + res));
-}
 
 function cargarAdmin(){
   const adminUser = {

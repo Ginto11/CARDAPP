@@ -1,28 +1,33 @@
 import Empleado from "../model/Empleado.js";
+import Tarjeta from "../model/Tarjeta.js";
+import { mostrarTarjetaSolicitada } from "./axios.js";
 let $body = document.body;
 const usuarioLogeado = (buscarEnSesionStorage("usuarioLogeado") === null) ? window.location.href = "../index.html" : JSON.parse(sessionStorage.usuarioLogeado);
 
 document.addEventListener("DOMContentLoaded", e => {
     
-    downloadFile();
+    downloadFile("terminos");
+    downloadFile("terminos-solicitud");
 
-    crearSelectEmpleados("select-empleados");
-    crearSelectCupos("cupoTarjeta");
-    crearSelectTiposTarjetas("tipoTarjeta");
-
+    if(localStorage.getItem("solicitudes") == null){localStorage.setItem("solicitudes", JSON.stringify([]))};
+    
     $body.querySelector("#bienvenida").textContent = `BIENVENIDO ${cortarNombre(usuarioLogeado.nombre).toUpperCase()}`
-
+    
     if(buscarEnLocalStorage("empleados") == null){
-
+        
         buscar("../assets/empleados.json", guardarEmpleados);
-
+        
     } else {
-
+        
         let empleados = buscarEnLocalStorage("empleados");
-
+        
         mostrarEmpleados(empleados);
     }
-
+    
+    crearSelectEmpleados("select-empleados", "nombreEmpleadoSolicitud");
+    crearSelectCupos("cupoTarjeta");
+    crearSelectTiposTarjetas("tipoTarjeta");
+    crearSelectEmpleadosBloqueo("select-empleados-bloqueo", "nombreEmpleadoBloqueo");
 });
 
 document.addEventListener("click", e => {
@@ -156,7 +161,43 @@ document.addEventListener("click", e => {
                 }
             }
         })
+    }
 
+    if(e.target.matches(".btn-solicitar-nueva-tarjeta")){
+        e.preventDefault();
+
+        let cupo = e.target.parentElement.parentElement.querySelector("#cupoTarjeta").value;
+        let tipoTarjeta = e.target.parentElement.parentElement.querySelector("#tipoTarjeta").value;
+
+        if(cupo == "" || tipoTarjeta == ""){
+            return alert("Complete todos los campos");
+        }
+
+        let idEmpleado = e.target.parentElement.parentElement.querySelector("#nombreEmpleadoSolicitud").value;
+        let empleadoEnviado;
+        
+        let empleados = buscarEnLocalStorage("empleados");
+
+        empleados.forEach(empleado => {
+            if(empleado.id == idEmpleado){
+                empleadoEnviado = empleado;       
+            }
+        })
+
+        mostrarTarjetaSolicitada(".contenedor-tarjeta-solicitada", tipoTarjeta, empleadoEnviado, cupo);
+    }
+
+    if(e.target.matches(".nueva-tarjeta")){
+        mostrarSection("nueva-tarjeta", buscarPorSelector("class", "sections-solicitudes", true));
+    }
+
+    if(e.target.matches(".bloqueo-preventivo")){
+        mostrarSection("bloqueo-preventivo", buscarPorSelector("class", "sections-solicitudes", true));
+    }
+
+    if(e.target.matches(".btn-bloquear-tarjeta")){
+        e.preventDefault();
+        alert(`La tarjeta del empleado: ${e.target.parentElement.parentElement.querySelector("#nombreEmpleadoBloqueo").value}, ha sido bloqueada.`);
     }
 })
 
@@ -307,18 +348,37 @@ function guadarLocalStorage(){
     localStorage.setItem("empleados", JSON.stringify(empleadosActuales));
 }
 
+/**
+ * FUNCION QUE ME BUSCA UN VALOR EN EL LOCALSTORAGE
+ * @param {String} nombre SE LE PASA COMO PAREMETRO EL NOMBRE DE LA CLAVE
+ * @returns ME RETORNA EL VALOR QUE LLAME Y SI NO HAY VALOR, RETORNA NULL
+ */
 function buscarEnLocalStorage(nombre){
     return JSON.parse(localStorage.getItem(nombre));
 }
 
+/**
+ * FUNCION QUE ME BUSCA UN VALOR EN EL SESION STORAGE
+ * @param {*} nombre RECIBE EL NOMBRE DE LA CLAVE 
+ * @returns ME RETORNA EL VALOR QUE LLAME Y SI NO HAY VALOR, RETORNA NULL
+ */
 function buscarEnSesionStorage(nombre){
     return JSON.parse(sessionStorage.getItem(nombre));
 }
 
+/**
+ * FUNCION QUE ME ACTUALIZA EL LOCAL STORAGE
+ * @param {*} nombre RECIBE EL NOMBRE COMO PAREMETRO 
+ * @param {*} valor RECIBE EL VALOR QUE SE VA ACTUALIZAR
+ */
 function actualizarLocalStorage(nombre, valor){
     localStorage.setItem(nombre, JSON.stringify(valor));
 }
 
+/**
+ * FUNCION QUE ME CARGA LA INFORMACION DEL EMPLEADO A LA INTERFAZ 
+ * @param {*} empleado OBJETO QUE CONTIENE TODA LA INFORMACION DEL EMPLEADO
+ */
 function cargarInfoEmpleado(empleado){
     buscarPorSelector("id", "idEmpleado", false).value = empleado.id;
     buscarPorSelector("id", "nombreEmpleadoTitulo", false).textContent = cortarNombre(empleado.nombre);
@@ -339,6 +399,14 @@ function cargarInfoEmpleado(empleado){
     mostrarSection("detalle-empleado", buscarPorSelector("class", "sections-administrador", true));
 }
 
+
+/**
+ * FUNCION QUE ME BUSCA UN ELEMENTO HTML DE ACUERDO AL SELECTOR QUE SE LE PASE
+ * @param {*} tipoSelector TIPO DE SELECTOR A BUSCAR (CLASS Y ID)
+ * @param {*} valorSelector EL VALOR DEL SELECTOR (contenedor-tarjeta)
+ * @param {*} isAll ESTE PARAMETRO ME DICE SI ES UN SELECTOR MULTIPLE O UNICO, EN ESTE CASO TRUE PARA TRAER MULTIPLES ELEMENTOS O FALSE PARA UN UNICO ELEMENTO
+ * @returns 
+ */
 function buscarPorSelector(tipoSelector, valorSelector, isAll){
     const TIPOS_SELECTORES = {
         ID: "id",
@@ -360,7 +428,11 @@ function buscarPorSelector(tipoSelector, valorSelector, isAll){
     console.error(`El selector (${tipoSelector}) con valor de ${valorSelector}, no se encuentra.`);
 }
 
-function downloadFile(){
+/**
+ * FUNCION QUE ME AGREGA EL DOCUMENTO DE TERMINOS Y CONDICIONES
+ * @param {*} selector SELECTOR EN DONDE SE VA AGREGAR EL DOCUMENTO
+ */
+function downloadFile(selector){
     const a = document.createElement("a");
     a.href = "../assets/Terminos_y_Condiciones.pdf";
     a.target = "_blank";
@@ -376,9 +448,13 @@ function downloadFile(){
         a.style.textDecoration = "none";
     }
 
-    buscarPorSelector("class", "terminos", false).appendChild(a);
+    buscarPorSelector("class", selector, false).appendChild(a);
 }
 
+/**
+ * FUNCION QUE ME ACTUALIZA UN EMPLEADO
+ * @param {*} formulario RECIBE EL FORMULARIO CON TODA LA INFORMACION A ACTUALIZAR
+ */
 function actualizarEmpleado(formulario){
 
     let $informacion = formulario.querySelector(".contenedor-inputs");
@@ -414,7 +490,11 @@ function actualizarEmpleado(formulario){
 
 }
 
-
+/**
+ * FUNCION QUE ME VALIDAD LOS CAMPOS, PARA ACTUALIZAR UN EMPLEADO SIN DEJAR CAMPOS VACIOS
+ * @param {*} formulario RECIBE EL FORMULARIO CON TODA LA INFORMACION
+ * @returns RETORNA TRUE SI NO HAY INCONVENIENTES CON LA ACTUALIZACION O FALSE SI ALGUN CAMPO ESTA VACIO
+ */
 function preValidacion(formulario){
         let $nombre = formulario.querySelector("#nombreEmpleado").value;
         let $cedula = formulario.querySelector("#cedulaEmpleado").value;
@@ -434,11 +514,16 @@ function preValidacion(formulario){
         return true;
 }
 
-function crearSelectEmpleados(selector){
+/**
+ * FUNCION QUE ME CREA EL SELECT DE LOS EMPLEADOS
+ * @param {*} selector SELECTOR EN DONDE SE VA AGREGAR EL SELECT
+ * @param {*} id ID DE DONDE SE AGREGARIA AL NOMBRE Y NAME DEL SELECT
+ */
+function crearSelectEmpleados(selector, id){
     const $select = document.createElement("select");
 
-    $select.name = "nombreEmpleadoSolicitud";
-    $select.id = "nombreEmpleadoSolicitud";
+    $select.name = id;
+    $select.id = id;
 
     const $optionSelected = document.createElement("option");
     $optionSelected.value = "";
@@ -450,28 +535,28 @@ function crearSelectEmpleados(selector){
     
 
     $select.addEventListener("change", e => {
-        console.log(e.target.parentElement.parentElement.querySelector("#cargoEmpleadoSolicitud"));
+        //console.log(e.target.parentElement.parentElement.querySelector("#cargoEmpleadoSolicitud"));
 
         if(e.target.value == ""){
-            e.target.parentElement.parentElement.querySelector("#cargoEmpleadoSolicitud").value = "";
-                e.target.parentElement.parentElement.querySelector("#direccionEmpleadoSolicitud").value = "";
-                e.target.parentElement.parentElement.querySelector("#cedulaEmpleadoSolicitud").value = "";
-                e.target.parentElement.parentElement.querySelector("#paisEmpleadoSolicitud").value = "";
-                e.target.parentElement.parentElement.querySelector("#estadoEmpleadoSolicitud").value = "";
-                e.target.parentElement.parentElement.querySelector("#telefonoEmpleadoSolicitud").value = "";
-                e.target.parentElement.parentElement.querySelector("#correoCorporativoEmpleadoSolicitud").value = "";
+            e.target.parentElement.parentElement.querySelector(`#cargoEmpleadoSolicitud`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#direccionEmpleadoSolicitud`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#cedulaEmpleadoSolicitud`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#paisEmpleadoSolicitud`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#estadoEmpleadoSolicitud`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#telefonoEmpleadoSolicitud`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#correoCorporativoEmpleadoSolicitud`).value = "";
         }
 
         empleados.forEach(empleado => {
             
             if(e.target.value == empleado.id){
-                e.target.parentElement.parentElement.querySelector("#cargoEmpleadoSolicitud").value = empleado.cargo;
-                e.target.parentElement.parentElement.querySelector("#direccionEmpleadoSolicitud").value = empleado.direccion;
-                e.target.parentElement.parentElement.querySelector("#cedulaEmpleadoSolicitud").value = empleado.cedula;
-                e.target.parentElement.parentElement.querySelector("#paisEmpleadoSolicitud").value = empleado.pais;
-                e.target.parentElement.parentElement.querySelector("#estadoEmpleadoSolicitud").value = (empleado.estado) ? "Activo" : "Inactivo";
-                e.target.parentElement.parentElement.querySelector("#telefonoEmpleadoSolicitud").value = empleado.telefono;
-                e.target.parentElement.parentElement.querySelector("#correoCorporativoEmpleadoSolicitud").value = empleado.correoCorporativo;
+                e.target.parentElement.parentElement.querySelector(`#cargoEmpleadoSolicitud`).value = empleado.cargo;
+                e.target.parentElement.parentElement.querySelector(`#direccionEmpleadoSolicitud`).value = empleado.direccion;
+                e.target.parentElement.parentElement.querySelector(`#cedulaEmpleadoSolicitud`).value = empleado.cedula;
+                e.target.parentElement.parentElement.querySelector(`#paisEmpleadoSolicitud`).value = empleado.pais;
+                e.target.parentElement.parentElement.querySelector(`#estadoEmpleadoSolicitud`).value = (empleado.estado) ? "Activo" : "Inactivo";
+                e.target.parentElement.parentElement.querySelector(`#telefonoEmpleadoSolicitud`).value = empleado.telefono;
+                e.target.parentElement.parentElement.querySelector(`#correoCorporativoEmpleadoSolicitud`).value = empleado.correoCorporativo;
 
             } 
         })
@@ -488,6 +573,10 @@ function crearSelectEmpleados(selector){
     buscarPorSelector("class", selector, false).appendChild($select);
 }
 
+/**
+ * FUNCION QUE CREA EL SELECT DE CUPOS
+ * @param {*} selector SELECTOR EN DONDE SE AGREGARA EL SELECT 
+ */
 function crearSelectCupos(selector){
 
     const cupos = [120000, 400000, 600000, 1000000, 1400000, 6000000, 35000000];
@@ -510,9 +599,14 @@ function crearSelectCupos(selector){
         $select.appendChild($option);
     })
 
-    buscarPorSelector("class", "cupoTarjeta", false).appendChild($select);
+    buscarPorSelector("class", selector, false).appendChild($select);
 }
 
+/**
+ * FUNCION QUE ME RETORNA UN ENTERO CON FORMATO DE MONEDA
+ * @param {*} cupo ES EL ENTERO QUE SE LE PASA
+ * @returns CUPO FORMATEADO
+ */
 function formatoMoneda(cupo){
     const formateado = cupo.toLocaleString("en", {
         style: "currency",
@@ -522,8 +616,12 @@ function formatoMoneda(cupo){
     return formateado;
 }
 
+/**
+ * FUNCION QUE ME CREA EL SELECT DE TIPOS DE TARJETAS 
+ * @param {*} selector SELECTOR EN DONDE SE AGREGARA EL SELECT 
+ */
 function crearSelectTiposTarjetas(selector){
-    const tipos = ["Credito", "Recargable"];
+    const tipos = ["Credito", "Debito"];
     const $select = document.createElement("select");
 
     $select.name = "tipoTarjeta";
@@ -537,7 +635,7 @@ function crearSelectTiposTarjetas(selector){
 
     tipos.forEach(tipo => {
         const $option = document.createElement("option");
-        $option.value = tipo.toLowerCase();
+        $option.value = tipo;
         $option.textContent = tipo;
 
         $select.appendChild($option);
@@ -546,4 +644,61 @@ function crearSelectTiposTarjetas(selector){
     buscarPorSelector("class", selector, false).appendChild($select);
 }
 
+/**
+ * FUNCION QUE CREA EL SELECT DE EMPLEADOS QUE TIENEN TARJETAS PARA BLOQUEAR
+ * @param {*} selector SELECTOR DE DONDE SE VA AGREGAR EL SELECT
+ * @param {*} id ID QUE CORRESPONDE AL ID Y AL NOMBRE DEL ELEMENTO
+ */
+function crearSelectEmpleadosBloqueo(selector, id){
+    const $select = document.createElement("select");
 
+    $select.name = id;
+    $select.id = id;
+
+    const $optionSelected = document.createElement("option");
+    $optionSelected.value = "";
+    $optionSelected.textContent = "Seleccionar"
+
+    $select.appendChild($optionSelected);
+
+    let solicitudes = buscarEnLocalStorage("solicitudes");
+    
+
+    $select.addEventListener("change", e => {
+        //console.log(e.target.parentElement.parentElement.querySelector("#cargoEmpleadoSolicitud"));
+
+        if(e.target.value == ""){
+                e.target.parentElement.parentElement.querySelector(`#idPropietarioBloqueo`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#cupoTarjetaBloqueo`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#tipoTarjetaBloqueo`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#estadoTarjetaBloqueo`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#numeroTarjetaBloqueo`).value = "";
+        }
+
+
+        solicitudes.forEach(solicitud => {
+
+            
+            if(e.target.value == solicitud.idPropietario){
+                document.querySelector(".contenedor-tarjeta-bloqueo").innerHTML = new Tarjeta(solicitud.color1, solicitud.color2, solicitud.tipo, solicitud.nombreUsuario, solicitud.cupo, solicitud.idPropietario).crearTarjeta();
+
+                e.target.parentElement.parentElement.querySelector(`#idPropietarioBloqueo`).value = solicitud.idPropietario;
+                e.target.parentElement.parentElement.querySelector(`#cupoTarjetaBloqueo`).value = solicitud.cupo;
+                e.target.parentElement.parentElement.querySelector(`#tipoTarjetaBloqueo`).value = solicitud.tipo;
+                e.target.parentElement.parentElement.querySelector(`#estadoTarjetaBloqueo`).value = (solicitud.estadoTarjeta) ? "Activo" : "Inactivo";
+                e.target.parentElement.parentElement.querySelector(`#numeroTarjetaBloqueo`).value = solicitud.numeroTarjeta;
+
+            } 
+        })
+    })
+
+    solicitudes.forEach(solicitud => {
+        const $option = document.createElement("option");
+        $option.value = solicitud.idPropietario;
+        $option.textContent = solicitud.nombreUsuario;
+
+        $select.appendChild($option);
+    })
+
+    buscarPorSelector("class", selector, false).appendChild($select);
+}

@@ -33,6 +33,7 @@
   </header>
 
   <section class="section-administrador">
+
     <!-- SECTION PARA AGREGAR EMPLEADOS -->
     <div id="agregar-empleado" class="sections-administrador">
       <form>
@@ -112,6 +113,7 @@
       </div>
     </div>
 
+    <!-- SECTION DE DETALLE EMPLEADO -->
     <div id="detalle-empleado" class="sections-administrador">
       <form class="formulario-datalle-empleado">
         <div>
@@ -194,26 +196,30 @@
       </form>
     </div>
 
+    <!-- SECTION DE SOLICITUDES -->
     <div id="solicitudes" class="sections-administrador">
       <div class="contenedor-solicitudes">
 
         <h2>Solicitudes</h2>
 
+        <!-- CONTENEDOR DE BOTONES DE SOLICITUDES -->
         <div class="contenedor-inputs-solicitudes">
           <button class="nueva-tarjeta"><img src="../icons/nueva-tarjeta.png" alt="Nueva Tarjeta">Nueva tarjeta</button>
           <button class="bloqueo-preventivo"><img src="../icons/bloqueo-preventivo.png" alt="Bloqueo Preventivo">Bloqueo
             preventivo</button>
-          <button class="salir-pais"><img src="../icons/salir-pais.png" alt="Salir Pais">Salir del pais</button>
-          <button class="aumento-cupo"><img src="../icons/aumento-cupo.png" alt="Aumento Cupo">Aumento de cupo</button>
+          <!--<button class="salir-pais"><img src="../icons/salir-pais.png" alt="Salir Pais">Salir del pais</button>
+          <button class="aumento-cupo"><img src="../icons/aumento-cupo.png" alt="Aumento Cupo">Aumento de cupo</button>-->
         </div>
 
+        <!-- CONTENEDOR EN DONDE SE MOSTRARAN LAS SOLICITUDES -->
         <div class="solicitud">
 
-          <div id="nueva-tarjeta">
+          <!-- SOLICITUD DE NUEVA TARJETA -->
+          <div id="nueva-tarjeta" class="sections-solicitudes">
 
-            <h3>Nueva Tarjeta</h2>
-              <form action="">
-
+            <div class="contenedor-formulario">
+              <h3>Nueva Tarjeta</h3>
+              <form>
                 <div class="contenedor-inputs-solicitud">
                   <label for="nombreEmpleadoSolicitud" class="select-empleados">
                     Nombre <br>
@@ -222,42 +228,43 @@
                   <label for="cedulaEmpleadoSolicitud">
                     Cedula <br />
                     <input class="input-focus" type="number" name="cedulaEmpleadoSolicitud" id="cedulaEmpleadoSolicitud"
-                      required />
+                      required readonly />
                   </label>
 
                   <label for="correoCorporativoEmpleadoSolicitud">
                     Correo Corporativo <br />
                     <input class="input-focus" type="text" name="correoCorporativoEmpleadoSolicitud"
-                      id="correoCorporativoEmpleadoSolicitud" />
+                      id="correoCorporativoEmpleadoSolicitud" readonly />
                   </label>
 
                   <label for="telefonoEmpleadoSolicitud">
                     Telefono <br />
                     <input class="input-focus" type="number" name="telefonoEmpleadoSolicitud"
-                      id="telefonoEmpleadoSolicitud" required />
+                      id="telefonoEmpleadoSolicitud" required readonly />
                   </label>
 
                   <label for="direccionEmpleadoSolicitud">
                     Direccion <br />
                     <input class="input-focus" type="text" name="direccionEmpleadoSolicitud"
-                      id="direccionEmpleadoSolicitud" />
+                      id="direccionEmpleadoSolicitud" readonly />
                   </label>
 
                   <label for="cargoEmpleadoSolicitud">
                     Cargo <br />
-                    <input class="input-focus" type="text" name="cargoEmpleadoSolicitud" id="cargoEmpleadoSolicitud" />
+                    <input class="input-focus" type="text" name="cargoEmpleadoSolicitud" id="cargoEmpleadoSolicitud"
+                      readonly />
                   </label>
 
                   <label for="paisEmpleadoSolicitud">
                     Pais <br />
                     <input class="input-focus" type="text" name="paisEmpleadoSolicitud" id="paisEmpleadoSolicitud"
-                      required />
+                      required readonly />
                   </label>
 
                   <label for="estadoEmpleadoSolicitud">
                     Estado <br />
                     <input class="input-focus" type="text" name="estadoEmpleadoSolicitud" id="estadoEmpleadoSolicitud"
-                      required />
+                      required readonly />
                   </label>
 
                   <label for="cupotarjeta" class="cupoTarjeta">
@@ -269,10 +276,73 @@
                   </label>
                 </div>
 
+                <label class="terminos-solicitud" for="terminos-y-condiciones">
+                  <input type="checkbox" name="terminos-y-condiciones" id="terminos-y-condiciones">
+                </label>
+
+                <label for="solicitar" class="label-solicitar">
+                  <button class="btn-solicitar-nueva-tarjeta">Solicitar</button>
+                </label>
+              </form>
+            </div>
+
+            <div class="contenedor-tarjeta-solicitada">
+
+            </div>
+          </div>
+
+
+          <!-- SOLICITUD DE BLOQUEO PREVENTIVO -->
+          <div id="bloqueo-preventivo" class="sections-solicitudes">
+            <div class="contenedor-formulario">
+              <h3>Bloqueo Tarjeta</h3>
+              <form>
+                <div class="contenedor-inputs-solicitud">
+                  <label for="nombreEmpleadoBloqueo" class="select-empleados-bloqueo">
+                    Nombre <br>
+                  </label>
+
+                  <label for="idPropietarioBloqueo">
+                    ID Propietario <br>
+                    <input type="number" name="idPropietarioBloqueo" id="idPropietarioBloqueo">
+                  </label>
+
+                  <label for="cupoTarjetaBloqueo">
+                    Cupo <br>
+                    <input type="number" name="cupoTarjetaBloqueo" id="cupoTarjetaBloqueo" readonly>
+                  </label>
+
+                  <label for="tipoTarjetaBloqueo">
+                    Tipo Tarjeta <br>
+                    <input type="text" name="tipoTarjetaBloqueo" id="tipoTarjetaBloqueo" readonly>
+                  </label>
+
+                  <label for="estadoTarjetaBloqueo">
+                    Estado Tarjeta <br>
+                    <input type="text" name="estadoTarjetaBloqueo" id="estadoTarjetaBloqueo" readonly>
+                  </label>
+
+                  <label for="numeroTarjetaBloqueo">
+                    Numero Tarjeta <br>
+                    <input type="text" name="numeroTarjetaBloqueo" id="numeroTarjetaBloqueo" readonly>
+                  </label>
+
+                </div>
+
+                <label for="bloquear" class="label-bloquear">
+                  <button class="btn-bloquear-tarjeta">Bloquear</button>
+                </label>
 
 
               </form>
+            </div>
+
+            <div class="contenedor-tarjeta-bloqueo">
+
+            </div>
           </div>
+
+
         </div>
       </div>
     </div>

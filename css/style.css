@@ -747,6 +747,11 @@ footer .copy{
 }
 
 /*SECTION SOLICITUDES*/
+#solicitudes,
+#bloqueo-preventivo{
+    display: none;
+}
+
 #solicitudes .contenedor-solicitudes{
     background-color: #FFF2;
     width: 80%;
@@ -795,24 +800,44 @@ footer .copy{
 
 #solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta {
     display: flex;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta .contenedor-formulario,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo .contenedor-formulario,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais .contenedor-formulario{
+    width: 50%;
+    min-height: 50vh;
+    color: var(--color-texto-blanco);
+    display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta h3 {
-    width: 50%;
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta .contenedor-formulario h3,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo .contenedor-formulario h3,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais .contenedor-formulario h3 {
+    width: 100%;
     text-indent: 30px;
     color: var(--color-texto-blanco);
 }
 
-#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form{
-    width: 50%;
-    min-height: 50vh;
-    color: var(--color-texto-blanco);
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta .contenedor-formulario form,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo .contenedor-formulario form,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais .contenedor-formulario form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
+
+
 #solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form input,
-#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form select {
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form select,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo form input,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo form select,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais form input,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais form select {
     height: 30px;
     width: 100%;
     border-radius: 5px;
@@ -821,12 +846,83 @@ footer .copy{
     outline: none;
 }
 
-#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form select {
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form select,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo form select,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais form select {
     height: 34px;
 }
 
-#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form .contenedor-inputs-solicitud{
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form .contenedor-inputs-solicitud,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo form .contenedor-inputs-solicitud,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais form .contenedor-inputs-solicitud{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form .label-solicitar,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo form .label-bloquear,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais form .label-salir{
+    display: flex;
+    justify-content: center;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form .label-solicitar button,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo form .label-bloquear button,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais form .label-salir button{
+    height: 30px;
+    width: 30%;
+    background-color: #008000;
+    font-weight: bold;
+    border: 3px solid transparent;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form .label-solicitar button:hover{
+    border-color: #000;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta .contenedor-tarjeta-solicitada,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo .contenedor-tarjeta-bloqueo,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais .contenedor-tarjeta-salir{
+    width: 50%;
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta .contenedor-tarjeta-solicitada .tarjeta {
+    width: 70%;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form .terminos-solicitud,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo form .terminos-solicitud,
+#solicitudes .contenedor-solicitudes .solicitud #salir-pais form .terminos-salir{
+    display: flex;
+    justify-content: center;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta form #terminos-y-condiciones{
+    width: initial;
+    height: initial;
+}
+
+
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-tarjeta {
+    display: flex;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo form .label-bloquear button{
+    background-color: var(--color-titulo-rojo);
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo form .label-bloquear button:hover{
+    border-color: #000;
+}
+
+#solicitudes .contenedor-solicitudes .solicitud #nueva-tarjeta .contenedor-tarjeta-solicitada .tarjeta,
+#solicitudes .contenedor-solicitudes .solicitud #bloqueo-preventivo .contenedor-tarjeta-bloqueo .tarjeta {
+    width: 70%;
 }

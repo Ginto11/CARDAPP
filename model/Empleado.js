@@ -11,5 +11,6 @@ export default class Empleado {
         this.jefeInmediato = jefeInmediato;
         this.pais = pais; 
         this.estado = true;
+        this.solicitudes = [];
     }
 }
