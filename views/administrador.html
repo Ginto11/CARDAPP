@@ -207,8 +207,8 @@
           <button class="nueva-tarjeta"><img src="../icons/nueva-tarjeta.png" alt="Nueva Tarjeta">Nueva tarjeta</button>
           <button class="bloqueo-preventivo"><img src="../icons/bloqueo-preventivo.png" alt="Bloqueo Preventivo">Bloqueo
             preventivo</button>
-          <!--<button class="salir-pais"><img src="../icons/salir-pais.png" alt="Salir Pais">Salir del pais</button>
-          <button class="aumento-cupo"><img src="../icons/aumento-cupo.png" alt="Aumento Cupo">Aumento de cupo</button>-->
+          <button class="salir-pais"><img src="../icons/salir-pais.png" alt="Salir Pais">Salir del pais</button>
+          <button class="aumento-cupo"><img src="../icons/aumento-cupo.png" alt="Aumento Cupo">Aumento de cupo</button>
         </div>
 
         <!-- CONTENEDOR EN DONDE SE MOSTRARAN LAS SOLICITUDES -->
@@ -304,7 +304,7 @@
 
                   <label for="idPropietarioBloqueo">
                     ID Propietario <br>
-                    <input type="number" name="idPropietarioBloqueo" id="idPropietarioBloqueo">
+                    <input type="number" name="idPropietarioBloqueo" id="idPropietarioBloqueo" readonly>
                   </label>
 
                   <label for="cupoTarjetaBloqueo">
@@ -338,6 +338,56 @@
             </div>
 
             <div class="contenedor-tarjeta-bloqueo">
+
+            </div>
+          </div>
+
+          <!--  -->
+          <div id="salir-pais" class="sections-solicitudes">
+            <div class="contenedor-formulario">
+              <h3>Salir del Pais</h3>
+              <form>
+                <div class="contenedor-inputs-solicitud">
+                  <label for="nombreEmpleadoSalir" class="select-empleados-salir">
+                    Nombre <br>
+                  </label>
+
+                  <label for="idPropietarioSalir">
+                    ID Propietario <br>
+                    <input type="number" name="idPropietarioSalir" id="idPropietarioSalir" readonly>
+                  </label>
+
+                  <label for="tipoTarjetaSalir">
+                    Tipo Tarjeta <br>
+                    <input type="text" name="tipoTarjetaSalir" id="tipoTarjetaSalir" readonly>
+                  </label>
+
+                  <label for="estadoTarjetaSalir">
+                    Estado Tarjeta <br>
+                    <input type="text" name="estadoTarjetaSalir" id="estadoTarjetaSalir" readonly>
+                  </label>
+
+                  <label for="numeroTarjetaSalir">
+                    Numero Tarjeta <br>
+                    <input type="text" name="numeroTarjetaSalir" id="numeroTarjetaSalir" readonly>
+                  </label>
+
+                  <label for="paisDestinoSalir" class="paisDestinoSalir">
+                    Pais Destino <br>
+
+                  </label>
+
+                </div>
+
+                <label for="salir" class="label-salir">
+                  <button class="btn-salir-pais">Activar Permiso</button>
+                </label>
+
+
+              </form>
+            </div>
+
+            <div class="contenedor-tarjeta-salir">
 
             </div>
           </div>

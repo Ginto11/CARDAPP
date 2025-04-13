@@ -748,7 +748,8 @@ footer .copy{
 
 /*SECTION SOLICITUDES*/
 #solicitudes,
-#bloqueo-preventivo{
+#bloqueo-preventivo,
+#salir-pais{
     display: none;
 }
 

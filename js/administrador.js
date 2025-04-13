@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", e => {
     crearSelectEmpleados("select-empleados", "nombreEmpleadoSolicitud");
     crearSelectCupos("cupoTarjeta");
     crearSelectTiposTarjetas("tipoTarjeta");
-    crearSelectEmpleadosBloqueo("select-empleados-bloqueo", "nombreEmpleadoBloqueo");
+    crearSelectEmpleadosBloqueo("select-empleados-bloqueo");
+    crearSelectEmpleadosSalir("select-empleados-salir");
+    crearSelectPaisesSalir("paisDestinoSalir");
 });
 
 document.addEventListener("click", e => {
@@ -192,12 +194,18 @@ document.addEventListener("click", e => {
     }
 
     if(e.target.matches(".bloqueo-preventivo")){
+        crearSelectEmpleadosBloqueo("select-empleados-bloqueo");
         mostrarSection("bloqueo-preventivo", buscarPorSelector("class", "sections-solicitudes", true));
     }
 
     if(e.target.matches(".btn-bloquear-tarjeta")){
         e.preventDefault();
         alert(`La tarjeta del empleado: ${e.target.parentElement.parentElement.querySelector("#nombreEmpleadoBloqueo").value}, ha sido bloqueada.`);
+    }
+
+    if(e.target.matches(".salir-pais")){
+        e.preventDefault();
+        mostrarSection("salir-pais", buscarPorSelector("class", "sections-solicitudes", true));
     }
 })
 
@@ -649,11 +657,20 @@ function crearSelectTiposTarjetas(selector){
  * @param {*} selector SELECTOR DE DONDE SE VA AGREGAR EL SELECT
  * @param {*} id ID QUE CORRESPONDE AL ID Y AL NOMBRE DEL ELEMENTO
  */
-function crearSelectEmpleadosBloqueo(selector, id){
+function crearSelectEmpleadosBloqueo(selector){
+
+    if(document.querySelector(".select-empleados-bloqueo-eliminar")){
+        let $selectEncontrado = document.querySelector(".select-empleados-bloqueo-eliminar");
+        let $elementoPadre = $selectEncontrado.parentElement;
+        $elementoPadre.removeChild($selectEncontrado);
+    }
+
     const $select = document.createElement("select");
 
-    $select.name = id;
-    $select.id = id;
+    $select.classList.add("select-empleados-bloqueo-eliminar");
+
+    $select.name = "nombreEmpleadoBloqueo";
+    $select.id = "nombreEmpleadoBloqueo";
 
     const $optionSelected = document.createElement("option");
     $optionSelected.value = "";
@@ -675,11 +692,12 @@ function crearSelectEmpleadosBloqueo(selector, id){
                 e.target.parentElement.parentElement.querySelector(`#numeroTarjetaBloqueo`).value = "";
         }
 
-
+        
         solicitudes.forEach(solicitud => {
-
+            
             
             if(e.target.value == solicitud.idPropietario){
+                
                 document.querySelector(".contenedor-tarjeta-bloqueo").innerHTML = new Tarjeta(solicitud.color1, solicitud.color2, solicitud.tipo, solicitud.nombreUsuario, solicitud.cupo, solicitud.idPropietario).crearTarjeta();
 
                 e.target.parentElement.parentElement.querySelector(`#idPropietarioBloqueo`).value = solicitud.idPropietario;
@@ -702,3 +720,83 @@ function crearSelectEmpleadosBloqueo(selector, id){
 
     buscarPorSelector("class", selector, false).appendChild($select);
 }
+
+/* ------------------------------------------------------------------ */
+
+function crearSelectEmpleadosSalir(selector){
+    const $select = document.createElement("select");
+
+    $select.name = "nombreEmpeladoSalir";
+    $select.id = "nombreEmpeladoSalir";
+
+    const $optionSelected = document.createElement("option");
+    $optionSelected.value = "";
+    $optionSelected.textContent = "Seleccionar"
+
+    $select.appendChild($optionSelected);
+
+    let solicitudes = buscarEnLocalStorage("solicitudes");
+    
+
+    $select.addEventListener("change", e => {
+        //console.log(e.target.parentElement.parentElement.querySelector("#cargoEmpleadoSolicitud"));
+
+        if(e.target.value == ""){
+                e.target.parentElement.parentElement.querySelector(`#idPropietarioSalir`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#cupoTarjetaSalir`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#tipoTarjetaSalir`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#estadoTarjetaSalir`).value = "";
+                e.target.parentElement.parentElement.querySelector(`#numeroTarjetaSalir`).value = "";
+        }
+
+
+        solicitudes.forEach(solicitud => {
+
+            
+            if(e.target.value == solicitud.idPropietario){
+                document.querySelector(".contenedor-tarjeta-bloqueo").innerHTML = new Tarjeta(solicitud.color1, solicitud.color2, solicitud.tipo, solicitud.nombreUsuario, solicitud.cupo, solicitud.idPropietario).crearTarjeta();
+
+                e.target.parentElement.parentElement.querySelector(`#idPropietarioSalir`).value = solicitud.idPropietario;
+                e.target.parentElement.parentElement.querySelector(`#tipoTarjetaSalir`).value = solicitud.tipo;
+                e.target.parentElement.parentElement.querySelector(`#estadoTarjetaSalir`).value = (solicitud.estadoTarjeta) ? "Activo" : "Inactivo";
+                e.target.parentElement.parentElement.querySelector(`#numeroTarjetaSalir`).value = solicitud.numeroTarjeta;
+
+            } 
+        })
+    })
+
+    solicitudes.forEach(solicitud => {
+        const $option = document.createElement("option");
+        $option.value = solicitud.idPropietario;
+        $option.textContent = solicitud.nombreUsuario;
+
+        $select.appendChild($option);
+    })
+
+    buscarPorSelector("class", selector, false).appendChild($select);
+}
+
+function crearSelectPaisesSalir(selector){
+    let $select  = document.createElement("select");
+
+    $select.id = "paisDestinoSalir";
+    $select.name = "paisDestinoSalir";
+    $select.style.cursor = "pointer";
+
+    fetch("../assets/paises.json")
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(pais => {
+                let $option = document.createElement("option");
+                $option.value = pais.toLowerCase();
+                $option.textContent = pais;
+
+                $select.appendChild($option);
+            })
+        })
+        .catch(err => console.error(err));
+
+    buscarPorSelector("class", selector, false).appendChild($select);
+
+}
+
